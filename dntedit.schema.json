@@ -4,12 +4,6 @@
     "title": "DNT Edit",
     "descrption": "DNT edit definition",
     "type": "object",
-    "required": [
-        "id",
-        "version",
-        "author",
-        "build"
-    ],
     "additionalProperties": {
         "#COMMENT": {
             "description": "A comment",
