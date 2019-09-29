@@ -1,0 +1,272 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://static.divinitor.com/schema/dn/modkit/modinfo.schema.json",
+    "title": "modinfo",
+    "descrption": "ModKit mod definition",
+    "type": "object",
+    "required": [
+        "id",
+        "version",
+        "author",
+        "build"
+    ],
+    "additionalProperties": {
+        "#COMMENT": {
+            "description": "A comment",
+            "type": "string"
+        }
+    },
+    "properties": {
+        "id": {
+            "description": "ID of the mod pack",
+            "type": "string",
+            "pattern": "[a-z]([-a-z0-9]+[a-z0-9])?"
+        },
+        "description": {
+            "description": "Display discription of the mod",
+            "type": ["string", "null"]
+        },
+        "version": {
+            "description": "Version number",
+            "type": "string",
+            "pattern": "0|([1-9][0-9]*)\\.0|([1-9][0-9]*)\\.0|([1-9][0-9]*)(-.+)?"
+        },
+        "author": {
+            "description": "Author of the mod",
+            "type": "string"
+        },
+        "timestamp": {
+            "description": "Mod timestamp",
+            "type": ["number", "string", "null"]
+        },
+        "customPrefix": {
+            "description": "Custom prefix for the resulting pak file",
+            "type": ["string", "null"]
+        },
+        "customSuffix": {
+            "description": "Custom suffix for the resulting pak file",
+            "type": ["string", "null"]
+        },
+        "expandPak": {
+            "description": "Whether or not to expand the output pak",
+            "type": ["boolean", "null"]
+        },
+        "projectUrl": {
+            "description": "URL to project page",
+            "type": ["string", "null"]
+        },
+        "build": {
+            "description": "Build information",
+            "type": "object",
+            "required": [
+                "kitVersion"
+            ],
+            "properties": {
+                "kitVersion": {
+                    "description": "Minimum version of ModKit required to compile",
+                    "type": "string",
+                    "pattern": "0|([1-9][0-9]*)\\.0|([1-9][0-9]*)\\.0|([1-9][0-9]*)(-.+)?"
+                },
+                "copy": {
+                    "description": "Existing game files to copy from one location to another (rename)",
+                    "type": ["array", "null"],
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "source",
+                            "dest"
+                        ],
+                        "properties": {
+                            "source": {
+                                "description": "The source file to copy (full path or just file name)",
+                                "type": "string"
+                            },
+                            "dest": {
+                                "description": "The destination path for the file. Should be a full path",
+                                "type": "string"
+                            },
+                            "compressionLevel": {
+                                "description": "The compression level to use when packing this file",
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9
+                            },
+                            "copies": {
+                                "description": "Other copies to make",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "add": {
+                    "description": "External/mod supplied files to add",
+                    "type": ["array", "null"],
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "source",
+                            "dest"
+                        ],
+                        "properties": {
+                            "source": {
+                                "description": "The source file to copy (relative path to mod pack root)",
+                                "type": "string"
+                            },
+                            "dest": {
+                                "description": "The destination path for the file. Should be a full path",
+                                "type": "string"
+                            },
+                            "compressionLevel": {
+                                "description": "The compression level to use when packing this file",
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9
+                            },
+                            "processor": {
+                                "description": "The file processor to use, if any",
+                                "type": "string",
+                                "enum": [
+                                    "skn",
+                                    "actkit",
+                                    "uistring",
+                                    "stagetrigger",
+                                    "propinfo",
+                                    "shader",
+                                    "triggerv2",
+                                    "triggerdefinev2"
+                                ]
+                            },
+                            "copies": {
+                                "description": "Other copies to make",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "editTable": {
+                    "description": "Edits to tables/DNTs",
+                    "type": ["array", "null"],
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "tableName"
+                        ],
+                        "properties": {
+                            "tableName": {
+                                "description": "Name of the table to edit",
+                                "type": "string"
+                            },
+                            "compressionLevel": {
+                                "description": "The compression level to use when packing this file",
+                                "type": ["integer", "null"],
+                                "minimum": 0,
+                                "maximum": 9
+                            },
+                            "add": {
+                                "description": "Rows to add",
+                                "type": ["array", "null"],
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "rowId",
+                                        "columns"
+                                    ],
+                                    "properties": {
+                                        "rowId": {
+                                            "description": "Row ID",
+                                            "type": "integer"
+                                        },
+                                        "columns": {
+                                            "description": "Row values, keyed by column",
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            },
+                            "modify": {
+                                "description": "Rows to add",
+                                "type": ["array", "null"],
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "rowId",
+                                        "columns"
+                                    ],
+                                    "properties": {
+                                        "rowId": {
+                                            "description": "Row ID",
+                                            "type": "integer"
+                                        },
+                                        "rows": {
+                                            "description": "Row IDs",
+                                            "type": ["array", "null"],
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "columns": {
+                                            "description": "Row values, keyed by column",
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            },
+                            "delete": {
+                                "description": "List of rows IDs to delete",
+                                "type": ["array", "null"],
+                                "items": {
+                                    "type": ["integer", "string"]
+                                }
+                            }
+                        }
+                    }
+                },
+                "eris": {
+                    "description": "Eris settings",
+                    "type": ["object", "null"],
+                    "required": [
+                        "majorVersion",
+                        "minorVersion"
+                    ],
+                    "properties": {
+                        "majorVersion": {
+                            "description": "Major Eris version",
+                            "type": "number"
+                        },
+                        "minorVersion": {
+                            "description": "Major Eris version",
+                            "type": "number"
+                        },
+                        "gameVersion": {
+                            "description": "Version of the game this mod is for",
+                            "type": ["number", "null"]
+                        },
+                        "hwid": {
+                            "description": "HWID",
+                            "type": ["string", "null"],
+                            "pattern": "^[0-9a-f]{64}$"
+                        },
+                        "serial": {
+                            "description": "Serial",
+                            "type": ["number", "null"]
+                        },
+                        "startTime": {
+                            "description": "Trial time period start time",
+                            "type": ["number", "string", "null"]
+                        },
+                        "endTime": {
+                            "description": "Trial time period end time",
+                            "type": ["number", "string", "null"]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
