@@ -1,0 +1,93 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://static.divinitor.com/schema/dn/dntedit/dntedit.schema.json",
+    "title": "DNT Edit",
+    "descrption": "DNT edit definition",
+    "type": "object",
+    "required": [
+        "id",
+        "version",
+        "author",
+        "build"
+    ],
+    "additionalProperties": {
+        "#COMMENT": {
+            "description": "A comment",
+            "type": "string"
+        }
+    },
+    "properties": {
+        "tableEdit": {
+            "description": "Edits to tables/DNTs",
+            "type": ["array", "null"],
+            "items": {
+                "type": "object",
+                "required": [
+                    "tableName"
+                ],
+                "properties": {
+                    "tableName": {
+                        "description": "Name of the table to edit, without .dnt extension",
+                        "type": "string"
+                    },
+                    "add": {
+                        "description": "Rows to add",
+                        "type": ["array", "null"],
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "rowId",
+                                "columns"
+                            ],
+                            "properties": {
+                                "rowId": {
+                                    "description": "Row ID",
+                                    "type": "integer"
+                                },
+                                "columns": {
+                                    "description": "Row values, keyed by column",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "modify": {
+                        "description": "Rows to add",
+                        "type": ["array", "null"],
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "rowId",
+                                "columns"
+                            ],
+                            "properties": {
+                                "rowId": {
+                                    "description": "Row ID (single). Must have one of rowId or rows",
+                                    "type": ["integer", "null"]
+                                },
+                                "rows": {
+                                    "description": "Row IDs (multiple). This edit will apply to all the row IDs in this array. Must have one of rowId or rows",
+                                    "type": ["array", "null"],
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "columns": {
+                                    "description": "Row values, keyed by column, e.g. \"_NameID\": 1234\nTypes are fairly loose and will be coerced the best they can to the proper column type",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "delete": {
+                        "description": "List of rows IDs to delete",
+                        "type": ["array", "null"],
+                        "items": {
+                            "type": ["integer", "string"]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
