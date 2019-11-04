@@ -149,6 +149,27 @@
                         }
                     }
                 },
+                "folder": {
+                    "description": "Folders to copy verbatim",
+                    "type": ["array", "null"],
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "source",
+                            "dest"
+                        ],
+                        "properties": {
+                            "source": {
+                                "description": "The source file to copy (full path or just file name)",
+                                "type": "string"
+                            },
+                            "dest": {
+                                "description": "The destination path for the file. Should be a full path",
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
                 "editTable": {
                     "description": "Edits to tables/DNTs",
                     "type": ["array", "null"],
